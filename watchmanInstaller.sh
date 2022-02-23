@@ -163,7 +163,9 @@ function install(){
   # Install root
   if ! [ "$skip_root" = true ]
   then
-    git clone https://github.com/root-project/root.git --single-branch --branch v6-18-00 root_src
+    # Xin: 6.18.00 -> 6.18.00-patches
+    # git clone https://github.com/root-project/root.git --single-branch --branch v6-18-00 root_src
+    git clone https://github.com/root-project/root.git --single-branch --branch v6-18-00-patches root_src
     mkdir -p root_build
     cd root_build
     cmake -D minuit2=ON -DCMAKE_INSTALL_PREFIX=$prefix \
@@ -290,7 +292,9 @@ function check_deps()
   done
   # Check libraries with ldd
   echo "Checking for libraries ..."
-  libraries=(libX11 libXpm libXft libffi libXext libQt libOpenGL)
+  # Xin: edit libOpenGL -> libGL
+  # libraries=(libX11 libXpm libXft libffi libXext libQt libOpenGL)
+  libraries=(libX11 libXpm libXft libffi libXext libQt libGL)
   for lb in ${libraries[@]}
   do
     if check_lib $lb
