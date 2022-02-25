@@ -3,7 +3,7 @@ Notes Regarding Installation
 
 Date: 2022.02.22
 
-This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUtils in Feb 2022. The `watchmanInstaller.sh` will download a fresh copy of cmake, python, geant4, ratpac, ... and build them from scratch. A complete installation using this script will result a total of 10-20 GB WMUtils directory, including all ratpac dependence and more. Some are useful for WbLS, some are not. We will keep this repo public until people request privacy.
+This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUtils in Feb 2022. We will keep this repo public until people request privacy. The `watchmanInstaller.sh` will download a fresh copy of cmake, python, geant4, ratpac, ... and build them from scratch. A complete installation using this script will result a total of 10-20 GB WMUtils directory, including all ratpac dependence and more. Some are useful for WbLS, some are not. 
 
 - **SDCC**. We do not want to do multiple installations on the same machine (ex. dune0001.sdcc.bnl.gov). Instead, we have one shared group directory at /gpfs01/lbne/users/wbls where this WMUtils is installed. Note, the WMUtils/ratpac is ignored by git when commiting to WMUtils repo. People are encouraged to develop ratpac in their own home directory under /gpfs01/lbne/users, and compile ratpac on their own by linking the dependence in this WMUtils. A separate ratpac repository is forked into BNLIF/WbLS team as well on github, and we should be using that one to corrodinate separate code development.
 
@@ -11,13 +11,20 @@ This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUti
 ```bash
 . watchmanInstaller.sh --only cmake python root geant4 ratpac -j8
 ```
-where -j8 just means compiling with 8 cores in parallel (much faster). It also helps to compile the packages one by one, but it needs to be done in the order above. 
+where -j8 just means compiling with 8 cores in parallel (much faster). It also helps to compile the packages one by one, but it needs to be done in the order listed above.
+
+The `watchmanInstaller.sh` generate a `env.sh` after the installation. Source it and you can now use ratpac.
+```bash
+. env.sh
+```
 
 Trouble Shooting
 ------------------
 Typically if a dependent package is missing, `sudo apt-get install` will solve the problem. In the absence of sudo permission (ex. SDCC):
-     - change libOpenGL -> libGL if libOpenGL.so is missing
-     - change root v6-18-00 -> v6-18-00-patches if it complains about Ddavix missing
+
+- change libOpenGL -> libGL if libOpenGL.so is missing
+- change root v6-18-00 -> v6-18-00-patches if it complains about Ddavix missing
+
 The above two changes have been updated to this repository.
 
 Watchman Utilities
