@@ -1,16 +1,24 @@
-Notes Regarding Usage on SDCC
+Notes Regarding Installation
 ==================
 
 Date: 2022.02.22
 
-This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUtils in Feb 2022. The `watchmanInstaller.sh` will download a fresh copy of cmake, python, geant4, ratpac, ... and build them from scratch. The installation will result a 10 GB WMUtils directory containing all neccessary dependences. Some are useful for WbLS, some are not. Thus, we do not want to do multiple installations on the same machine (ex. dune0001.sdcc.bnl.gov). Instead, we have one shared group directory at /gpfs01/lbne/users/wbls where this WMUtils is installed. People are encouraged to develop ratpac in their own home directory under /gpfs01/lbne/users, and compile ratpac on their own by linking the dependence in this WMUtils. A separate ratpac repository is forked into BNLIF/WbLS as well, and we should be using that one to corrodinate separate code development.
+This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUtils in Feb 2022. The `watchmanInstaller.sh` will download a fresh copy of cmake, python, geant4, ratpac, ... and build them from scratch. A complete installation using this script will result a total of 10-20 GB WMUtils directory, including all ratpac dependence and more. Some are useful for WbLS, some are not. We will keep this repo public until people request privacy.
 
-The original watchmanInstaller.sh does not work out of the box, so we made the following two changes:  
-     - libOpenGL -> libGL
-     - root v6.18.00 -> v6.18.00-patches
-The changes has been updated to this repository. If further edits are required (either for fixing issue, installing on other machine, or develop analysis code), we can modify this repo as we want.
+- **SDCC**. We do not want to do multiple installations on the same machine (ex. dune0001.sdcc.bnl.gov). Instead, we have one shared group directory at /gpfs01/lbne/users/wbls where this WMUtils is installed. Note, the WMUtils/ratpac is ignored by git when commiting to WMUtils repo. People are encouraged to develop ratpac in their own home directory under /gpfs01/lbne/users, and compile ratpac on their own by linking the dependence in this WMUtils. A separate ratpac repository is forked into BNLIF/WbLS team as well on github, and we should be using that one to corrodinate separate code development.
 
-We will keep this repo public until people request privacy.
+- **Workstation**. watchmanInstaller.sh works on Ubuntu. I have not tested it on MacOS. You do not need to do the compeleted installtion for ratpac. For example, the following will only install five packages (2-3 GB) upto ratpac: 
+```bash
+. watchmanInstaller.sh --only cmake python root geant4 ratpac -j8
+```
+where -j8 just means compiling with 8 cores in parallel (much faster). It also helps to compile the packages one by one, but it needs to be done in the order above. 
+
+Trouble Shooting
+------------------
+Typically if a dependent package is missing, `sudo apt-get install` will solve the problem. In the absence of sudo permission (ex. SDCC):
+     - change libOpenGL -> libGL if libOpenGL.so is missing
+     - change root v6-18-00 -> v6-18-00-patches if it complains about Ddavix missing
+The above two changes have been updated to this repository.
 
 Watchman Utilities
 ==================
