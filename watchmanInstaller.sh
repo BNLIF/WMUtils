@@ -212,7 +212,8 @@ function install(){
     source $prefix/bin/thisroot.sh
     source $prefix/bin/geant4.sh
     rm -rf ratpac
-    git clone https://github.com/ait-watchman/rat-pac.git ratpac
+    # git clone https://github.com/ait-watchman/rat-pac.git ratpac
+    git clone git@github.com:BNLIF/rat-pac.git ratpac
     cd ratpac
     make -j$procuse && source ./ratpac.sh
     # Check if ratpac was successful, if so clean-up, otherwise exit
