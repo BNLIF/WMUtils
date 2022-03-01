@@ -293,9 +293,9 @@ function check_deps()
   done
   # Check libraries with ldd
   echo "Checking for libraries ..."
-  # Xin: edit libOpenGL -> libGL
-  # libraries=(libX11 libXpm libXft libffi libXext libQt libOpenGL)
-  libraries=(libX11 libXpm libXft libffi libXext libQt libGL)
+  # Xin: edit libOpenGL -> libGL works on SDCC
+  libraries=(libX11 libXpm libXft libffi libXext libQt libOpenGL)
+  #libraries=(libX11 libXpm libXft libffi libXext libQt libGL)
   for lb in ${libraries[@]}
   do
     if check_lib $lb

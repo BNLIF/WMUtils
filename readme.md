@@ -5,13 +5,18 @@ Date: 2022.02.22
 
 This repository was originally forked from https://github.com/AIT-WATCHMAN/WMUtils in Feb 2022. We will keep this repo public until people request privacy. The `watchmanInstaller.sh` will download a fresh copy of cmake, python, geant4, ratpac, ... and build them from scratch. A complete installation using this script will result a total of 10-20 GB WMUtils directory, including all ratpac dependence and more. Some are useful for WbLS, some are not. 
 
-- **SDCC**. We do not want to do multiple installations on the same machine (ex. dune0001.sdcc.bnl.gov). Instead, we have one shared group directory at /gpfs01/lbne/users/wbls where this WMUtils is installed. Note, the WMUtils/ratpac is ignored by git when commiting to WMUtils repo. People are encouraged to develop ratpac in their own home directory under /gpfs01/lbne/users, and compile ratpac on their own by linking the dependence in this WMUtils. A separate ratpac repository is forked into BNLIF/WbLS team as well on github, and we should be using that one to corrodinate separate code development.
-
-- **Workstation**. watchmanInstaller.sh works on Ubuntu. I have not tested it on MacOS. You do not need to do the compeleted installtion for ratpac. For example, the following will only install five packages (2-3 GB) upto ratpac: 
+- **Workstation**. watchmanInstaller.sh works on Linux. I have not tested it on MacOS. You do not need to do the compeleted installtion for ratpac. For example, the following will only install five packages (2-3 GB) upto ratpac: 
 ```bash
 . watchmanInstaller.sh --only cmake python root geant4 ratpac -j8
 ```
-where -j8 just means compiling with 8 cores in parallel (much faster). It also helps to compile the packages one by one, but it needs to be done in the order listed above.
+where -j8 just means compiling with 8 cores in parallel (much faster). It also helps to compile the packages one by one when seeing a lot of error messages. But it needs to be done in the order listed above:
+```bash
+. watchmanInstaller.sh --only cmake -j8
+# repeat above for python, root, geant4, ratpac
+```
+Note, the ratpac is pulled from our https://github.com/BNLIF/rat-pac repository into the WMUtils/ratpac directory, but whatever happened inside WMUtils/ratpac is ignored by git when commiting to WMUtils repository. Individual code development happens in ratpac WMUtils/directory. When we commit the changes to ratpac, it should get pushed to https://github.com/BNLIF/rat-pac.  
+
+- **SDCC**. We can have multiple installations on the same machine (ex. dune0001.sdcc.bnl.gov) if the storage is small. Please use `--only` options as shown above to only install package upto ratpac. This way, we each will only occupy 2-3GB of space. There is one shared group directory at /gpfs01/lbne/users/wbls for data sharing. 
 
 The `watchmanInstaller.sh` generate a `env.sh` after the installation. Source it and you can now use ratpac.
 ```bash
@@ -22,10 +27,8 @@ Trouble Shooting
 ------------------
 Typically if a dependent package is missing, `sudo apt-get install` will solve the problem. In the absence of sudo permission (ex. SDCC):
 
-- change libOpenGL -> libGL if libOpenGL.so is missing
-- change root v6-18-00 -> v6-18-00-patches if it complains about Ddavix missing
+- change libOpenGL -> libGL if libOpenGL.so is missing on sdcc (see `libraries=(libX11 libXpm libXft libffi libXext libQt libOpenGL)` in watchmanInstaller.sh
 
-The above two changes have been updated to this repository.
 
 Watchman Utilities
 ==================
